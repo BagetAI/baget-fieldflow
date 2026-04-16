@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FieldFlow | Same-Day Farm Surplus for Restaurants</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="logo">
+                <span class="emerald">Field</span><span class="orange">Flow</span>
+            </div>
+            <div class="nav-links">
+                <a href="#chefs">For Chefs</a>
+                <a href="#farmers">For Farmers</a>
+                <a href="#waitlist" class="btn-primary-sm">Join Waitlist</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="container grid">
+            <div class="hero-content">
+                <div class="badge">Immediate Response Marketplace</div>
+                <h1>Turn Field Surplus Into <span class="orange">Chef Specials</span></h1>
+                <p>FieldFlow matches hyper-local farm surplus with restaurants for guaranteed same-day delivery. Save 40% on premium produce while supporting local growers.</p>
+                <div class="hero-btns">
+                    <a href="#waitlist" class="btn-primary">Get Early Access</a>
+                    <a href="#how-it-works" class="btn-secondary">How it Works</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="images/editorial-photography-of-a-high-end-rest.png" alt="Chef inspecting fresh ramps">
+            </div>
+        </div>
+    </header>
+
+    <section id="chefs" class="chefs-section">
+        <div class="container grid">
+            <div class="image-card">
+                <img src="images/macro-photography-of-premium-spring-aspa.png" alt="Fresh spring asparagus">
+            </div>
+            <div class="content">
+                <h2 class="emerald">For the Executive Chef</h2>
+                <ul class="feature-list">
+                    <li>
+                        <strong>Flash-Sale Alerts</strong>
+                        <p>Get SMS notifications when a farm within 30 miles has a sudden harvest glut.</p>
+                    </li>
+                    <li>
+                        <strong>Same-Day Delivery</strong>
+                        <p>Order by 10 AM, delivered by 4 PM. We handle the 3PL courier network.</p>
+                    </li>
+                    <li>
+                        <strong>FSMA 204 Compliance</strong>
+                        <p>Digital receipts automatically generate required traceability lot codes.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="farmers" class="farmers-section">
+        <div class="container grid">
+            <div class="content">
+                <h2 class="orange">For the Local Farmer</h2>
+                <ul class="feature-list">
+                    <li>
+                        <strong>Simple-List Interface</strong>
+                        <p>Upload a photo and quantity in under 60 seconds without leaving the field.</p>
+                    </li>
+                    <li>
+                        <strong>100% Harvest Monetization</strong>
+                        <p>Stop leaving ramps and greens to rot. If you grow it, we'll find a buyer.</p>
+                    </li>
+                    <li>
+                        <strong>Logistics-as-a-Service</strong>
+                        <p>Focus on the harvest. Our drivers pick up from your farm gate.</p>
+                    </li>
+                </ul>
+            </div>
+            <div class="image-card">
+                <img src="images/a-tech-forward-farmer-in-a-sunny-vegetab.png" alt="Farmer using FieldFlow app">
+            </div>
+        </div>
+    </section>
+
+    <section id="waitlist" class="waitlist-section">
+        <div class="container text-center">
+            <h2>Join the Spring 2026 Pilot</h2>
+            <p>We're launching with 15 pilot farms in the PNW and Southeast. Secure your spot in the "Immediate Response" marketplace.</p>
+            
+            <form id="waitlist-form" class="waitlist-form">
+                <div class="form-group">
+                    <input type="text" id="name" name="name" placeholder="Your Name" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" id="email" name="email" placeholder="Email Address" required>
+                </div>
+                <div class="form-group">
+                    <select id="role" name="role" required>
+                        <option value="" disabled selected>I am a...</option>
+                        <option value="Chef">Chef / Restaurant Owner</option>
+                        <option value="Farmer">Farmer / Grower</option>
+                        <option value="Courier">3PL Courier Partner</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <input type="text" id="location" name="location" placeholder="City, State" required>
+                </div>
+                <button type="submit" class="btn-primary full-width">Join the Waitlist</button>
+            </form>
+            <div id="form-message" class="hidden"></div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-info">
+                    <div class="logo">FieldFlow</div>
+                    <p>&copy; 2026 FieldFlow Inc. Eliminating agricultural waste through logistics.</p>
+                </div>
+                <div class="footer-contact">
+                    <p>samuel@baget.ai</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
