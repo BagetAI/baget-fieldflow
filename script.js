@@ -2,30 +2,56 @@ document.addEventListener('DOMContentLoaded', () => {
     const LISTINGS_DB_ID = 'eaa7a6ac-fa48-4674-b788-ce22410b8a04';
     const WAITLIST_DB_ID = 'e32f6392-951a-4b08-92a0-6425257c24a4';
 
-    // --- 1. LIVE SURPLUS COUNTER (Landing Page) ---
-    const updateSurplusCounter = async () => {
+    // --- 1. LIVE SURPLUS DATA FETCHING & RENDERING ---
+    const updateSurplusData = async () => {
         const counterEl = document.getElementById('surplus-count');
         const tickerEl = document.getElementById('live-ticker');
-        if (!counterEl && !tickerEl) return;
-
+        const gridEl = document.getElementById('listings-grid');
+        
         try {
             const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
             if (response.ok) {
                 const rows = await response.json();
                 
-                // Calculate total weight (lbs)
+                // 1a. Update Hero Stats
                 const totalLbs = rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
-                
-                if (counterEl) {
-                    counterEl.innerText = `${Math.floor(totalLbs)}lbs`;
+                if (counterEl) counterEl.innerText = `${Math.floor(totalLbs)}lbs`;
+
+                // 1b. Update Ticker
+                if (tickerEl) {
+                    if (rows.length > 0) {
+                        const recent = rows.slice(-5).reverse();
+                        tickerEl.innerHTML = recent.map(r => 
+                            `<span class="ticker-item">SURPLUS ALERT: ${r.quantity}lb ${r.produce_type} available now</span>`
+                        ).join('');
+                    } else {
+                        tickerEl.innerHTML = 'Spring Surge Pending - Secure your spot in the beta for first alerts.';
+                    }
                 }
 
-                if (tickerEl && rows.length > 0) {
-                    // Show last 3 listings in ticker
-                    const recent = rows.slice(-3).reverse();
-                    tickerEl.innerHTML = recent.map(r => 
-                        `<span class="ticker-item">NEW: ${r.quantity}lb ${r.produce_type} just listed</span>`
-                    ).join(' | ');
+                // 1c. Render Grid
+                if (gridEl) {
+                    if (rows.length > 0) {
+                        gridEl.innerHTML = rows.map(row => `
+                            <div class="listing-card-preview">
+                                <span class="badge-live">Live Now</span>
+                                <h3 class="listing-title">${row.produce_type}</h3>
+                                <div class="listing-meta">
+                                    <span>Quantity: ${row.quantity} lbs</span>
+                                    <span class="listing-price">${row.price}/lb</span>
+                                </div>
+                                <div class="listing-time">Harvested: ${new Date(row.harvest_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} today</div>
+                                <button class="btn-primary w-full notify-btn" data-produce="${row.produce_type}">Notify Me</button>
+                            </div>
+                        `).join('');
+                        
+                        // Attach listeners to new buttons
+                        document.querySelectorAll('.notify-btn').forEach(btn => {
+                            btn.addEventListener('click', () => openModal(btn.dataset.produce));
+                        });
+                    } else {
+                        gridEl.innerHTML = '<div class="text-white">Waiting for next harvest listing... Check back in 1 hour.</div>';
+                    }
                 }
             }
         } catch (error) {
@@ -33,9 +59,65 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    updateSurplusCounter();
+    updateSurplusData();
 
-    // --- 2. SELLER PORTAL: POST SURPLUS FORM ---
+    // --- 2. NOTIFICATION MODAL LOGIC ---
+    const modal = document.getElementById('notify-modal');
+    const closeBtn = document.querySelector('.close-modal');
+    const notifyForm = document.getElementById('notify-form');
+    const notifSuccess = document.getElementById('notif-success');
+
+    const openModal = (produce) => {
+        document.getElementById('notif-produce').value = produce;
+        modal.classList.remove('hidden');
+    };
+
+    const closeModal = () => {
+        modal.classList.add('hidden');
+        notifyForm.classList.remove('hidden');
+        notifSuccess.classList.add('hidden');
+    };
+
+    if (closeBtn) closeBtn.onclick = closeModal;
+    window.onclick = (event) => { if (event.target == modal) closeModal(); };
+
+    if (notifyForm) {
+        notifyForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = notifyForm.querySelector('button');
+            btn.innerText = 'Sending...';
+            btn.disabled = true;
+
+            const produce = document.getElementById('notif-produce').value;
+            const formData = {
+                name: document.getElementById('notif-name').value,
+                email: document.getElementById('notif-email').value,
+                role: 'Chef',
+                location: `Surplus Interest: ${produce}`,
+                source: 'Live Feed'
+            };
+
+            try {
+                const response = await fetch(`https://baget.ai/api/public/databases/${WAITLIST_DB_ID}/rows`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: formData })
+                });
+
+                if (response.ok) {
+                    notifyForm.classList.add('hidden');
+                    notifSuccess.classList.remove('hidden');
+                    setTimeout(closeModal, 3000);
+                }
+            } catch (err) {
+                alert('Connection error. Please try again.');
+                btn.innerText = 'Notify Me';
+                btn.disabled = false;
+            }
+        });
+    }
+
+    // --- 3. SELLER PORTAL: POST SURPLUS FORM ---
     const surplusForm = document.getElementById('surplus-form');
     if (surplusForm) {
         surplusForm.addEventListener('submit', async (e) => {
@@ -63,8 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     document.getElementById('form-container').classList.add('hidden');
                     document.getElementById('post-success').classList.remove('hidden');
-                    // Refresh count in background
-                    updateSurplusCounter();
+                    updateSurplusData();
                 } else {
                     throw new Error('Listing failed');
                 }
@@ -76,10 +157,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 3. WAITLIST FORM (Existing) ---
+    // --- 4. MAIN WAITLIST FORM ---
     const betaForm = document.getElementById('beta-form');
-    const formSuccess = document.getElementById('form-success');
-
     if (betaForm) {
         betaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -103,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 if (response.ok) {
                     betaForm.classList.add('hidden');
-                    formSuccess.classList.remove('hidden');
+                    document.getElementById('form-success').classList.remove('hidden');
                 }
             } catch (error) {
                 submitBtn.innerText = 'Join the Beta';
@@ -113,7 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- 4. UTILITIES ---
+    // --- 5. SMOOTH SCROLL ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             if (this.hash) {

@@ -62,8 +62,10 @@ h1, h2, h3 {
 .text-coral { color: var(--primary-coral); }
 .text-emerald { color: var(--emerald-green); }
 .bg-white { background-color: var(--white); }
+.bg-emerald { background-color: var(--emerald-green); }
 .opacity-80 { opacity: 0.8; }
 .hidden { display: none !important; }
+.w-full { width: 100%; }
 
 /* Navigation */
 .navbar {
@@ -226,6 +228,10 @@ h1, h2, h3 {
     100% { transform: translateX(-100%); }
 }
 
+.ticker-item {
+    margin: 0 40px;
+}
+
 .hero-visual {
     position: relative;
 }
@@ -255,6 +261,101 @@ h1, h2, h3 {
 
 .alert-header { font-weight: 700; font-size: 14px; color: var(--primary-coral); }
 .alert-body { font-weight: 500; }
+
+/* Listings Grid */
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 48px;
+}
+
+.listing-card-preview {
+    background: var(--white);
+    padding: 32px;
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.listing-card-preview:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.badge-live {
+    background: #4CAF50;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 8px;
+}
+
+.listing-title {
+    font-size: 24px;
+    color: var(--emerald-green);
+    margin-bottom: 4px;
+}
+
+.listing-meta {
+    font-size: 14px;
+    font-weight: 700;
+    color: #666;
+    display: flex;
+    justify-content: space-between;
+}
+
+.listing-price {
+    font-size: 20px;
+    color: var(--primary-coral);
+    font-weight: 700;
+}
+
+.listing-time {
+    font-size: 12px;
+    opacity: 0.6;
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    max-width: 450px;
+    width: 90%;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 24px;
+    cursor: pointer;
+    opacity: 0.5;
+}
 
 /* Sections */
 .section {
