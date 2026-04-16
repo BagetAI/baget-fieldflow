@@ -68,12 +68,12 @@
         </div>
     </header>
 
-    <!-- NEW: Live Surplus Feed -->
+    <!-- Live Surplus Feed -->
     <section id="live-surplus" class="section bg-emerald">
         <div class="container">
             <div class="section-header text-center">
                 <h2 class="text-white">Live Surplus Preview</h2>
-                <p class="text-white opacity-80 large-p">Real-time availability from local farms. Click 'Notify Me' to secure these lots.</p>
+                <p class="text-white opacity-80 large-p">Real-time availability from local farms. Claim your lot for immediate dispatch.</p>
             </div>
             
             <div id="listings-grid" class="listings-grid">
@@ -180,12 +180,12 @@
         </div>
     </section>
 
-    <!-- Notification Modal -->
+    <!-- Claim/Reserve Modal -->
     <div id="notify-modal" class="modal hidden">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
-            <h3 class="text-emerald">Secure This Surplus</h3>
-            <p>Enter your details below. We'll alert you the moment this lot is ready for same-day delivery.</p>
+            <h3 class="text-emerald">Claim Surplus Lot</h3>
+            <p>To reserve this lot for your kitchen, please provide your restaurant details. A courier will be dispatched upon confirmation.</p>
             <form id="notify-form" class="form-stack" style="margin-top: 20px;">
                 <input type="hidden" id="notif-produce" name="produce">
                 <div class="form-group">
@@ -193,14 +193,15 @@
                     <input type="text" id="notif-name" placeholder="Acme Bistro" required>
                 </div>
                 <div class="form-group">
-                    <label>Email</label>
+                    <label>Email Address</label>
                     <input type="email" id="notif-email" placeholder="chef@acme.com" required>
                 </div>
-                <button type="submit" class="btn-primary w-full">Notify Me</button>
+                <button type="submit" class="btn-primary w-full">Confirm Reservation</button>
             </form>
             <div id="notif-success" class="hidden text-center">
                 <div class="success-icon">✓</div>
-                <p>Interest captured! We'll be in touch.</p>
+                <h3>Reservation Attempted</h3>
+                <p>We've logged your request for this lot. A representative will contact you shortly to finalize delivery logistics.</p>
             </div>
         </div>
     </div>

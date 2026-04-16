@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <span class="listing-price">${row.price}/lb</span>
                                 </div>
                                 <div class="listing-time">Harvested: ${new Date(row.harvest_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} today</div>
-                                <button class="btn-primary w-full notify-btn" data-produce="${row.produce_type}">Notify Me</button>
+                                <button class="btn-primary w-full notify-btn" data-produce="${row.produce_type}">Claim Surplus</button>
                             </div>
                         `).join('');
                         
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateSurplusData();
 
-    // --- 2. NOTIFICATION MODAL LOGIC ---
+    // --- 2. NOTIFICATION/RESERVE MODAL LOGIC ---
     const modal = document.getElementById('notify-modal');
     const closeBtn = document.querySelector('.close-modal');
     const notifyForm = document.getElementById('notify-form');
@@ -85,7 +85,8 @@ document.addEventListener('DOMContentLoaded', () => {
         notifyForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = notifyForm.querySelector('button');
-            btn.innerText = 'Sending...';
+            const originalText = btn.innerText;
+            btn.innerText = 'Processing Reservation...';
             btn.disabled = true;
 
             const produce = document.getElementById('notif-produce').value;
@@ -93,8 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 name: document.getElementById('notif-name').value,
                 email: document.getElementById('notif-email').value,
                 role: 'Chef',
-                location: `Surplus Interest: ${produce}`,
-                source: 'Live Feed'
+                location: `Surplus Item: ${produce}`,
+                source: 'RESERVE_ATTEMPT'
             };
 
             try {
@@ -107,11 +108,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     notifyForm.classList.add('hidden');
                     notifSuccess.classList.remove('hidden');
-                    setTimeout(closeModal, 3000);
+                    setTimeout(closeModal, 4000);
                 }
             } catch (err) {
                 alert('Connection error. Please try again.');
-                btn.innerText = 'Notify Me';
+                btn.innerText = originalText;
                 btn.disabled = false;
             }
         });
