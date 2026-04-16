@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seller Portal | FieldFlow Surplus Posting</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container flex-between">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span class="text-emerald">Field</span><span class="text-coral">Flow</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Back to Site</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="portal-header">
+        <div class="container max-700">
+            <h1>Post Your Surplus</h1>
+            <p>Turn field gluts into same-day revenue. List in under 60 seconds.</p>
+        </div>
+    </header>
+
+    <main class="portal-body">
+        <div class="container max-700">
+            <div id="form-container" class="listing-card">
+                <form id="surplus-form" class="form-stack">
+                    <div class="form-group">
+                        <label for="produce_type">Produce Type</label>
+                        <input type="text" id="produce_type" name="produce_type" placeholder="e.g. Wild Ramps, Heirloom Tomatoes" required>
+                    </div>
+
+                    <div class="grid-2-mobile" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div class="form-group">
+                            <label for="quantity">Quantity (lbs)</label>
+                            <input type="number" id="quantity" name="quantity" placeholder="40" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="price">Price (per lb)</label>
+                            <input type="text" id="price" name="price" placeholder="$4.50" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="harvest_date">Harvested At</label>
+                        <input type="datetime-local" id="harvest_date" name="harvest_date" required>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 10px;">
+                        <p style="font-size: 13px; color: #666; font-style: italic;">
+                            By posting, you agree to have your surplus available for pickup within 2 hours of chef purchase.
+                        </p>
+                    </div>
+
+                    <button type="submit" class="btn-primary btn-xl">Publish to Marketplace</button>
+                </form>
+            </div>
+
+            <div id="post-success" class="hidden text-center">
+                <div class="success-icon" style="font-size: 64px; margin-bottom: 24px;">🚀</div>
+                <h2 class="text-emerald">Listing Published!</h2>
+                <p class="large-p">Your surplus is now live on the FieldFlow marketplace. Local chefs have been notified via SMS alerts.</p>
+                <div class="hero-actions" style="justify-content: center; margin-top: 30px;">
+                    <a href="portal.html" class="btn-primary">Post Another Listing</a>
+                    <a href="index.html" class="btn-outline">View Home</a>
+                </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center;">
+                <img src="images/a-clean-minimalist-mobile-dashboard-for.png" alt="FieldFlow Portal Preview" style="width: 100%; border-radius: 16px; opacity: 0.8; max-width: 500px;">
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2026 FieldFlow Seller Portal. All listings are FSMA 204 Compliant.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Set default harvest time to now
+        document.addEventListener('DOMContentLoaded', () => {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('harvest_date').value = now.toISOString().slice(0, 16);
+        });
+    </script>
+</body>
+</html>

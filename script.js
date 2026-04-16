@@ -1,32 +1,89 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Simple A/B Testing for Hero CTA
-    const heroCta = document.getElementById('hero-cta');
-    const heroHeading = document.getElementById('hero-heading');
-    
-    const variants = [
-        { cta: 'Join the Beta', heading: 'Fresh From the Field, <span class="text-coral">In Your Kitchen Today.</span>' },
-        { cta: 'Rescue Your First Harvest', heading: 'Turn Your Farm Surplus <span class="text-coral">Into Profit Today.</span>' }
-    ];
+    const LISTINGS_DB_ID = 'eaa7a6ac-fa48-4674-b788-ce22410b8a04';
+    const WAITLIST_DB_ID = 'e32f6392-951a-4b08-92a0-6425257c24a4';
 
-    // Simple randomization for demo/prototype purposes
-    const selectedVariant = variants[Math.floor(Math.random() * variants.length)];
-    
-    if (heroCta && heroHeading) {
-        // heroCta.innerText = selectedVariant.cta; // Disabled for now to keep consistency with "Join the Beta" requirement
-        // heroHeading.innerHTML = selectedVariant.heading;
+    // --- 1. LIVE SURPLUS COUNTER (Landing Page) ---
+    const updateSurplusCounter = async () => {
+        const counterEl = document.getElementById('surplus-count');
+        const tickerEl = document.getElementById('live-ticker');
+        if (!counterEl && !tickerEl) return;
+
+        try {
+            const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+            if (response.ok) {
+                const rows = await response.json();
+                
+                // Calculate total weight (lbs)
+                const totalLbs = rows.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
+                
+                if (counterEl) {
+                    counterEl.innerText = `${Math.floor(totalLbs)}lbs`;
+                }
+
+                if (tickerEl && rows.length > 0) {
+                    // Show last 3 listings in ticker
+                    const recent = rows.slice(-3).reverse();
+                    tickerEl.innerHTML = recent.map(r => 
+                        `<span class="ticker-item">NEW: ${r.quantity}lb ${r.produce_type} just listed</span>`
+                    ).join(' | ');
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching surplus stats:', error);
+        }
+    };
+
+    updateSurplusCounter();
+
+    // --- 2. SELLER PORTAL: POST SURPLUS FORM ---
+    const surplusForm = document.getElementById('surplus-form');
+    if (surplusForm) {
+        surplusForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = surplusForm.querySelector('button');
+            const originalText = btn.innerText;
+            btn.innerText = 'Publishing...';
+            btn.disabled = true;
+
+            const formData = {
+                produce_type: document.getElementById('produce_type').value,
+                quantity: document.getElementById('quantity').value,
+                price: document.getElementById('price').value,
+                harvest_date: document.getElementById('harvest_date').value,
+                status: 'Available'
+            };
+
+            try {
+                const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: formData })
+                });
+
+                if (response.ok) {
+                    document.getElementById('form-container').classList.add('hidden');
+                    document.getElementById('post-success').classList.remove('hidden');
+                    // Refresh count in background
+                    updateSurplusCounter();
+                } else {
+                    throw new Error('Listing failed');
+                }
+            } catch (err) {
+                alert('Error publishing listing. Please try again.');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        });
     }
 
-    // 2. Form Submission Logic
+    // --- 3. WAITLIST FORM (Existing) ---
     const betaForm = document.getElementById('beta-form');
     const formSuccess = document.getElementById('form-success');
-    const dbId = 'e32f6392-951a-4b08-92a0-6425257c24a4'; // FieldFlow_Waitlist
 
     if (betaForm) {
         betaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-
             const submitBtn = betaForm.querySelector('button');
-            const originalBtnText = submitBtn.innerText;
             submitBtn.innerText = 'Syncing...';
             submitBtn.disabled = true;
 
@@ -37,65 +94,35 @@ document.addEventListener('DOMContentLoaded', () => {
                 location: document.getElementById('location').value
             };
 
-            // Track event (mock)
-            console.log('Tracking Event: Waitlist_Signup_Attempt', formData);
-
             try {
-                const response = await fetch(`https://baget.ai/api/public/databases/${dbId}/rows`, {
+                const response = await fetch(`https://baget.ai/api/public/databases/${WAITLIST_DB_ID}/rows`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ data: formData }),
                 });
 
                 if (response.ok) {
                     betaForm.classList.add('hidden');
                     formSuccess.classList.remove('hidden');
-                    
-                    // Track success
-                    console.log('Tracking Event: Waitlist_Signup_Success');
-                } else {
-                    const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to submit');
                 }
             } catch (error) {
-                console.error('Submission error:', error);
-                alert('Oops! Something went wrong. Please check your connection and try again.');
-                submitBtn.innerText = originalBtnText;
+                submitBtn.innerText = 'Join the Beta';
                 submitBtn.disabled = false;
+                alert('Submission failed.');
             }
         });
     }
 
-    // 3. Smooth scroll for anchor links
+    // --- 4. UTILITIES ---
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-
-    // 4. Simple Scroll Animation for items
-    const observerOptions = {
-        threshold: 0.1
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+            if (this.hash) {
+                e.preventDefault();
+                const target = document.querySelector(this.hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
             }
         });
-    }, observerOptions);
-
-    document.querySelectorAll('.section-text, .section-image').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(20px)';
-        el.style.transition = 'all 0.6s ease-out';
-        observer.observe(el);
     });
 });

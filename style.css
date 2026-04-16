@@ -1,7 +1,7 @@
 /* Design System: Bold Pop */
 :root {
     --bg-warm: #FFF8F0;
-    --primary-coral: #FF6B4A;
+    --primary-coral: #FF6B35;
     --accent-yellow: #FFD23F;
     --emerald-green: #045D3B;
     --navy-text: #1B2A4A;
@@ -204,6 +204,28 @@ h1, h2, h3 {
     opacity: 0.7;
 }
 
+/* Live Ticker */
+.surplus-ticker-bar {
+    background: var(--navy-text);
+    color: var(--accent-yellow);
+    padding: 10px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 14px;
+    font-weight: 700;
+    border-bottom: 3px solid var(--primary-coral);
+}
+
+.ticker-content {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+}
+
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+
 .hero-visual {
     position: relative;
 }
@@ -271,21 +293,7 @@ h2 {
     color: var(--navy-text);
 }
 
-/* Waitlist */
-.waitlist-section {
-    background-color: var(--emerald-green);
-    border-radius: 40px 40px 0 0;
-}
-
-.waitlist-card {
-    background-color: var(--white);
-    padding: 48px;
-    border-radius: 24px;
-    margin-top: 60px;
-    box-shadow: 0 32px 64px rgba(0,0,0,0.2);
-    text-align: left;
-}
-
+/* Forms */
 .form-stack {
     display: flex;
     flex-direction: column;
@@ -299,7 +307,7 @@ h2 {
     font-size: 14px;
 }
 
-input, select {
+input, select, textarea {
     width: 100%;
     padding: 14px;
     border-radius: var(--radius-sm);
@@ -312,6 +320,40 @@ input, select {
 input:focus, select:focus {
     outline: none;
     border-color: var(--primary-coral);
+}
+
+/* Portal Specific */
+.portal-header {
+    background-color: var(--emerald-green);
+    color: var(--white);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.portal-body {
+    padding: 60px 0;
+}
+
+.listing-card {
+    background: var(--white);
+    padding: 40px;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+}
+
+/* Waitlist */
+.waitlist-section {
+    background-color: var(--emerald-green);
+    border-radius: 40px 40px 0 0;
+}
+
+.waitlist-card {
+    background-color: var(--white);
+    padding: 48px;
+    border-radius: 24px;
+    margin-top: 60px;
+    box-shadow: 0 32px 64px rgba(0,0,0,0.2);
+    text-align: left;
 }
 
 .success-icon {

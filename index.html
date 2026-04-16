@@ -10,14 +10,23 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="surplus-ticker-bar">
+        <div class="container">
+            <div id="live-ticker" class="ticker-content">
+                Loading live surplus alerts...
+            </div>
+        </div>
+    </div>
+
     <nav class="navbar">
         <div class="container flex-between">
             <div class="logo">
-                <span class="text-emerald">Field</span><span class="text-coral">Flow</span>
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span class="text-emerald">Field</span><span class="text-coral">Flow</span></a>
             </div>
             <div class="nav-links desktop-only">
                 <a href="#chefs">For Chefs</a>
                 <a href="#farmers">For Farmers</a>
+                <a href="portal.html" class="text-emerald" style="font-weight: bold;">Seller Portal</a>
                 <a href="#waitlist" class="btn-primary-sm">Join the Beta</a>
             </div>
         </div>
@@ -31,12 +40,12 @@
                 <p>FieldFlow matches hyper-local farm surplus with restaurants for guaranteed 4-hour delivery. Rescue premium produce, slash food costs, and support your local growers.</p>
                 <div class="hero-actions">
                     <a href="#waitlist" id="hero-cta" class="btn-primary">Join the Beta</a>
-                    <a href="#how-it-works" class="btn-outline">How it Works</a>
+                    <a href="portal.html" class="btn-outline">Post Surplus Listing</a>
                 </div>
                 <div class="hero-stats">
                     <div class="stat-item">
-                        <span class="stat-value">40%</span>
-                        <span class="stat-label">Avg. Savings</span>
+                        <span id="surplus-count" class="stat-value">...</span>
+                        <span class="stat-label">Live Surplus</span>
                     </div>
                     <div class="stat-item">
                         <span class="stat-value">4hr</span>
