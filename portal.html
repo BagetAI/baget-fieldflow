@@ -17,6 +17,7 @@
             </div>
             <div class="nav-links">
                 <a href="index.html">Back to Site</a>
+                <a href="pricing.html">Pricing</a>
             </div>
         </div>
     </nav>
@@ -91,7 +92,8 @@
         document.addEventListener('DOMContentLoaded', () => {
             const now = new Date();
             now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-            document.getElementById('harvest_date').value = now.toISOString().slice(0, 16);
+            const dateInput = document.getElementById('harvest_date');
+            if (dateInput) dateInput.value = now.toISOString().slice(0, 16);
         });
     </script>
 </body>
