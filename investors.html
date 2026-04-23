@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investor Dashboard | FieldFlow Traction</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .kpi-card {
+            background: var(--white);
+            padding: 32px;
+            border-radius: var(--radius-md);
+            border: var(--border-thick);
+            box-shadow: var(--shadow-hard);
+            text-align: center;
+        }
+        .kpi-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 56px;
+            font-weight: 700;
+            color: var(--emerald-green);
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+        .kpi-label {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.7;
+        }
+        .traction-visual {
+            margin-top: 60px;
+            border: var(--border-thick);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: 12px 12px 0 var(--accent-yellow);
+        }
+        .traction-visual img {
+            width: 100%;
+            display: block;
+        }
+        .roadmap-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .roadmap-item {
+            padding: 24px;
+            background: var(--white);
+            border-radius: var(--radius-md);
+            border: var(--border-thick);
+        }
+        .roadmap-item h3 {
+            font-size: 18px;
+            color: var(--primary-coral);
+            margin-bottom: 12px;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 700;
+            background: var(--accent-yellow);
+            border: 1px solid #000;
+            margin-top: 12px;
+        }
+        .live-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            color: var(--emerald-green);
+        }
+        .pulse {
+            width: 12px;
+            height: 12px;
+            background: var(--emerald-green);
+            border-radius: 50%;
+            animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(.33); }
+            80%, 100% { opacity: 0; }
+        }
+    </style>
+</head>
+<body class="bg-warm">
+    <nav class="navbar">
+        <div class="container flex-between">
+            <div class="logo">
+                <a href="index.html" style="text-decoration: none; color: inherit;"><span class="text-emerald">Field</span><span class="text-coral">Flow</span></a>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">Live Site</a>
+                <span class="text-coral" style="font-weight: 700;">INVESTOR ACCESS ONLY</span>
+            </div>
+        </div>
+    </nav>
+
+    <header class="section" style="padding: 60px 0 20px;">
+        <div class="container">
+            <div class="tagline">Confidential Traction Report</div>
+            <h1>The <span class="text-coral">Velocity</span> of FieldFlow</h1>
+            <p class="large-p">Real-time performance data across the supply and demand marketplace.</p>
+        </div>
+    </header>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="container">
+            <div class="dashboard-grid">
+                <!-- Supply KPI -->
+                <div class="kpi-card">
+                    <div id="farm-count" class="kpi-value">...</div>
+                    <div class="kpi-label">Anchor Farms Scouted</div>
+                    <div class="status-badge">Phase: Supply Lock</div>
+                </div>
+                <!-- Demand KPI -->
+                <div class="kpi-card">
+                    <div id="waitlist-count" class="kpi-value">...</div>
+                    <div class="kpi-label">Waitlist & Pilot Chefs</div>
+                    <div class="status-badge">Phase: High Intensity</div>
+                </div>
+                <!-- Marketplace KPI -->
+                <div class="kpi-card">
+                    <div id="surplus-lbs" class="kpi-value">...</div>
+                    <div class="kpi-label">Active Surplus (lbs)</div>
+                    <div class="live-status" style="justify-content: center; margin-top: 12px;">
+                        <div class="pulse"></div>
+                        <span>Live Feed Active</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="traction-visual">
+                <img src="images/a-high-fidelity-minimalist-saas-traction.png" alt="FieldFlow Traction Visual Representation">
+            </div>
+
+            <div class="section-header" style="margin-top: 80px;">
+                <h2>90-Day Execution Roadmap</h2>
+            </div>
+            <div class="roadmap-grid">
+                <div class="roadmap-item">
+                    <h3>Month 1: Supply Lock</h3>
+                    <p>Recruit 15 pilot farms; finalize 3PL courier contracts for same-day delivery.</p>
+                    <div class="status-badge">Status: 80% Complete</div>
+                </div>
+                <div class="roadmap-item">
+                    <h3>Month 2: Controlled Pilot</h3>
+                    <p>Onboard 30 "Daily Special" chefs; execute first 50 "Flash-Sale" deliveries.</p>
+                    <div class="status-badge">Status: Staged</div>
+                </div>
+                <div class="roadmap-item">
+                    <h3>Month 3: Tech Optimization</h3>
+                    <p>Launch automated SMS "Chef Alerts" and FSMA 204 Traceability Lot Codes.</p>
+                    <div class="status-badge">Status: Dev Sprint</div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 80px; background: var(--slate); color: white;">
+                <div class="grid-2 items-center">
+                    <div>
+                        <h2 class="text-white">Unit Economic Confidence</h2>
+                        <p style="opacity: 0.8;">Our model yields a 22% net platform margin on a standard $250 surplus order, even at 2026 fuel rates.</p>
+                        <ul class="feature-bullets" style="color: rgba(255,255,255,0.7);">
+                            <li>$52.75 Avg. Margin per Transaction</li>
+                            <li>FSMA 204 Moat (Chef Labor Saving)</li>
+                            <li>Same-Day Logistics Surcharge</li>
+                        </ul>
+                    </div>
+                    <div class="text-center">
+                        <a href="mailto:samuel@baget.ai?subject=FieldFlow Investment Inquiry" class="btn-primary">Request Pitch Deck</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2026 FieldFlow Investor Dashboard. Internal Use Only.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const FARMS_DB = '9b5c711f-8906-4325-8fa5-079aa23dc9de';
+            const WAITLIST_DB = 'e32f6392-951a-4b08-92a0-6425257c24a4';
+            const LISTINGS_DB = 'eaa7a6ac-fa48-4674-b788-ce22410b8a04';
+            const RESTAURANTS_DB = '7962bb85-0f85-42b8-8f8a-9a860d1b4a53';
+
+            const fetchData = async (dbId) => {
+                try {
+                    const res = await fetch(`https://baget.ai/api/public/databases/${dbId}/rows`);
+                    return res.ok ? await res.json() : [];
+                } catch (e) { return []; }
+            };
+
+            // Fetch all data
+            const [farms, waitlist, listings, restaurants] = await Promise.all([
+                fetchData(FARMS_DB),
+                fetchData(WAITLIST_DB),
+                fetchData(LISTINGS_DB),
+                fetchData(RESTAURANTS_DB)
+            ]);
+
+            // Update KPIs
+            document.getElementById('farm-count').innerText = farms.length || 0;
+            document.getElementById('waitlist-count').innerText = (waitlist.length + restaurants.length) || 0;
+            
+            const totalLbs = listings.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
+            document.getElementById('surplus-lbs').innerText = Math.floor(totalLbs);
+        });
+    </script>
+</body>
+</html>
