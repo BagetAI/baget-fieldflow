@@ -103,8 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = data.url;
             } else {
                 alert('Checkout failed: ' + (data.error || 'Unknown error'));
-                btn.innerText = 'Claim Surplus';
-                btn.disabled = false;
+                if (btn) {
+                    btn.innerText = 'Claim Surplus';
+                    btn.disabled = false;
+                }
             }
         } catch (error) {
             console.error('Checkout error:', error);
