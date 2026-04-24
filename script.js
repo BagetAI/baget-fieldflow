@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 1. LIVE SURPLUS DATA FETCHING & RENDERING ---
     const updateSurplusData = async () => {
         const counterEl = document.getElementById('surplus-count');
-        const tickerEl = document.getElementById('live-ticker');
         const gridEl = document.getElementById('listings-grid');
         
         try {
@@ -17,44 +16,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 const totalLbs = rows
                     .filter(r => r.status === 'Available')
                     .reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
-                if (counterEl) counterEl.innerText = `${Math.floor(totalLbs)}lbs`;
+                if (counterEl) counterEl.innerText = `${Math.floor(totalLbs)}`;
 
-                // 1b. Update Ticker
-                if (tickerEl) {
-                    const availableRows = rows.filter(r => r.status === 'Available');
-                    if (availableRows.length > 0) {
-                        const recent = availableRows.slice(-5).reverse();
-                        tickerEl.innerHTML = recent.map(r => 
-                            `<span class="ticker-item">SURPLUS ALERT: ${r.quantity}lb ${r.produce_type} available now</span>`
-                        ).join('');
-                    } else {
-                        tickerEl.innerHTML = 'Spring Surge Pending - Secure your spot in the beta for first alerts.';
-                    }
-                }
-
-                // 1c. Render Grid
+                // 1b. Render Grid
                 if (gridEl) {
                     const activeRows = rows.filter(r => r.status !== 'Sold');
                     if (activeRows.length > 0) {
                         gridEl.innerHTML = activeRows.map(row => {
                             const isReserved = row.status === 'Reserved';
                             return `
-                                <div class="listing-card-preview ${isReserved ? 'reserved' : ''}">
-                                    <span class="badge-live ${isReserved ? 'bg-slate' : ''}">${isReserved ? 'Reserved' : 'Live Now'}</span>
-                                    <h3 class="listing-title">${row.produce_type}</h3>
-                                    <div class="listing-meta">
-                                        <span>Quantity: ${row.quantity} lbs</span>
-                                        <span class="listing-price">${row.price}/lb</span>
+                                <div class="brutal-card ${isReserved ? 'reserved' : ''}">
+                                    <span class="card-tag">${isReserved ? 'STATUS: RESERVED' : 'STATUS: LIVE_NOW'}</span>
+                                    <h3 class="card-title">${row.produce_type.toUpperCase()}</h3>
+                                    <div class="card-meta">
+                                        <span>QTY: ${row.quantity} LBS</span>
+                                        <span class="price-tag">${row.price}/LB</span>
                                     </div>
-                                    <div class="listing-time">Harvested: ${new Date(row.harvest_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})} today</div>
+                                    <div style="font-size: 12px; font-weight: 800; opacity: 0.5; margin-bottom: 30px;">
+                                        HARVESTED: ${new Date(row.harvest_date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+                                    </div>
                                     <button 
-                                        class="btn-primary w-full checkout-btn" 
+                                        class="brutal-btn brutal-btn-sm w-full checkout-btn" 
                                         data-produce="${row.produce_type}" 
                                         data-price="${row.price}" 
                                         data-quantity="${row.quantity}"
                                         ${isReserved ? 'disabled' : ''}
                                     >
-                                        ${isReserved ? 'Transaction Pending' : 'Claim Surplus'}
+                                        ${isReserved ? 'PENDING...' : 'CLAIM_LOT'}
                                     </button>
                                 </div>
                             `;
@@ -70,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         });
                     } else {
-                        gridEl.innerHTML = '<div class="text-white">Waiting for next harvest listing... Check back in 1 hour.</div>';
+                        gridEl.innerHTML = '<div style="font-weight: 800; font-size: 24px;">NO_ACTIVE_LOTS. SYNCING_REIONAL_HUBS...</div>';
                     }
                 }
             }
@@ -82,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const initiateCheckout = async (produce_type, price, quantity) => {
         const btn = document.querySelector(`.checkout-btn[data-produce="${produce_type}"]`);
         if (btn) {
-            btn.innerText = 'Initializing Stripe...';
+            btn.innerText = 'INITIALIZING_STRIPE...';
             btn.disabled = true;
         }
 
@@ -103,14 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 window.location.href = data.url;
             } else {
                 alert('Checkout failed: ' + (data.error || 'Unknown error'));
-                btn.innerText = 'Claim Surplus';
-                btn.disabled = false;
+                if (btn) {
+                    btn.innerText = 'CLAIM_LOT';
+                    btn.disabled = false;
+                }
             }
         } catch (error) {
             console.error('Checkout error:', error);
             alert('Connection error. Please try again.');
             if (btn) {
-                btn.innerText = 'Claim Surplus';
+                btn.innerText = 'CLAIM_LOT';
                 btn.disabled = false;
             }
         }
@@ -125,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const btn = surplusForm.querySelector('button');
             const originalText = btn.innerText;
-            btn.innerText = 'Publishing...';
+            btn.innerText = 'PUBLISHING_TO_HUB...';
             btn.disabled = true;
 
             const formData = {
@@ -149,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    document.getElementById('form-container').classList.add('hidden');
+                    document.getElementById('form-container').style.display = 'none';
                     document.getElementById('post-success').classList.remove('hidden');
                     updateSurplusData();
                 } else {
@@ -169,7 +159,7 @@ document.addEventListener('DOMContentLoaded', () => {
         betaForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const submitBtn = betaForm.querySelector('button');
-            submitBtn.innerText = 'Syncing...';
+            submitBtn.innerText = 'UPLOADING_CREDENTIALS...';
             submitBtn.disabled = true;
 
             const formData = {
@@ -187,11 +177,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 if (response.ok) {
-                    betaForm.classList.add('hidden');
+                    betaForm.style.display = 'none';
                     document.getElementById('form-success').classList.remove('hidden');
                 }
             } catch (error) {
-                submitBtn.innerText = 'Join the Beta';
+                submitBtn.innerText = 'REQUEST_PILOT_ACCESS';
                 submitBtn.disabled = false;
                 alert('Submission failed.');
             }

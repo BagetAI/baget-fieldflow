@@ -3,226 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FieldFlow | Same-Day Farm Surplus Marketplace</title>
+    <title>FIELDFLOW | RESCUE_LIVE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="surplus-ticker-bar">
-        <div class="container">
-            <div id="live-ticker" class="ticker-content">
-                Loading live surplus alerts...
-            </div>
+    <!-- SYSTEM NOTIFICATION MARQUEE -->
+    <div class="system-marquee">
+        <div class="marquee-content">
+            SURPLUS ALERT: 40LBS WILD RAMPS JUST LISTED — 60LBS HEIRLOOM TOMATOES JUST LISTED — 25LBS SPRING ARUGULA JUST LISTED — 15LBS MICROGREENS JUST LISTED — 4-HOUR DELIVERY LOOP ACTIVE — FSMA 204 COMPLIANCE VERIFIED —
+            SURPLUS ALERT: 40LBS WILD RAMPS JUST LISTED — 60LBS HEIRLOOM TOMATOES JUST LISTED — 25LBS SPRING ARUGULA JUST LISTED — 15LBS MICROGREENS JUST LISTED — 4-HOUR DELIVERY LOOP ACTIVE — FSMA 204 COMPLIANCE VERIFIED —
         </div>
     </div>
 
     <nav class="navbar">
-        <div class="container flex-between">
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;"><span class="text-emerald">Field</span><span class="text-coral">Flow</span></a>
-            </div>
-            <div class="nav-links desktop-only">
-                <a href="#live-surplus">Live Feed</a>
-                <a href="pricing.html">Pricing</a>
-                <a href="#chefs">For Chefs</a>
-                <a href="#farmers">For Farmers</a>
-                <a href="portal.html" class="text-emerald">Seller Portal</a>
-                <a href="#waitlist" class="btn-primary-sm">Join the Beta</a>
+        <div class="container nav-flex">
+            <a href="index.html" class="logo">FIELDFLOW_</a>
+            <div class="nav-links">
+                <a href="#live" class="desktop-only">RESCUE_FEED</a>
+                <a href="pricing.html" class="desktop-only">PRICING</a>
+                <a href="portal.html">SELLER_PORTAL</a>
+                <a href="#waitlist" class="brutal-btn brutal-btn-sm brutal-btn-yellow">JOIN_BETA</a>
             </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <div class="container grid-2">
-            <div class="hero-content">
-                <div class="tagline">Immediate Response Marketplace</div>
-                <h1 id="hero-heading">Fresh From the Field, <span class="text-coral">In Your Kitchen Today.</span></h1>
-                <p>FieldFlow matches hyper-local farm surplus with restaurants for guaranteed 4-hour delivery. Rescue premium produce, slash food costs, and support your local growers.</p>
-                <div class="hero-actions">
-                    <a href="#waitlist" id="hero-cta" class="btn-primary">Join the Beta</a>
-                    <a href="portal.html" class="btn-outline">Post Surplus</a>
-                </div>
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span id="surplus-count" class="stat-value">...</span>
-                        <span class="stat-label">Live Surplus</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">4hr</span>
-                        <span class="stat-label">Delivery Window</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-value">100%</span>
-                        <span class="stat-label">FSMA Traceable</span>
-                    </div>
-                </div>
+    <!-- HERO REEL -->
+    <section class="reel-slide hero-reel" style="padding: 0;">
+        <div class="hero-text container">
+            <div class="tag-box" style="background: var(--brutal-yellow); padding: 8px 16px; border: var(--brutal-border); display: inline-block; font-weight: 800; margin-bottom: 24px;">
+                STATUS: LIVE_MARKETPLACE
             </div>
-            <div class="hero-visual">
-                <img src="images/editorial-photography-of-a-high-end-rest.png" alt="Chef inspecting fresh seasonal produce" class="main-hero-img">
-                <div class="floating-alert accent-yellow">
-                    <div class="alert-header">New Surplus Alert</div>
-                    <div class="alert-body">25lb Wild Ramps - $4.50/lb</div>
-                </div>
+            <h1>FIELDFLOW<br>RESCUE_LIVE</h1>
+            <p>Matching local farm gluts with professional kitchens for same-day delivery. Farm to Sink in under 240 minutes.</p>
+            <div style="display: flex; gap: 20px;">
+                <a href="#waitlist" class="brutal-btn">GET_ACCESS</a>
+                <a href="portal.html" class="brutal-btn brutal-btn-white">LIST_SURPLUS</a>
             </div>
         </div>
-    </header>
-
-    <!-- Live Surplus Feed -->
-    <section id="live-surplus" class="section bg-emerald">
-        <div class="container">
-            <div class="section-header text-center">
-                <h2 class="text-white">Live Surplus Preview</h2>
-                <p class="text-white opacity-80 large-p">Real-time availability from local farms. Claim your lot for immediate dispatch.</p>
-            </div>
-            
-            <div id="listings-grid" class="listings-grid">
-                <!-- Cards injected via JS -->
-                <div class="loading-state text-white">Fetching current harvest data...</div>
+        <div class="hero-visual">
+            <img src="images/industrial-neobrutalist-high-contrast-ph.png" alt="Brutalist Hero Image - Fresh Ramps">
+            <div class="status-box">
+                <span class="status-label">LATEST_CLAIM</span>
+                <div style="font-weight: 800; font-size: 20px;">STONEBURNER SECURED 40LBS RAMPS</div>
+                <div style="font-size: 12px; opacity: 0.6; margin-top: 5px;">TIMESTAMP: 09:42 AM</div>
             </div>
         </div>
     </section>
 
-    <section id="chefs" class="section bg-white">
-        <div class="container grid-2 items-center">
-            <div class="section-image">
-                <img src="images/macro-photography-of-premium-spring-aspa.png" alt="Fresh spring asparagus" class="rounded-img">
-            </div>
-            <div class="section-text">
-                <h2 class="text-emerald">For Chefs: Freshness & Savings</h2>
-                <p class="large-p">Access the season's best ingredients at surplus prices. We turn field gluts into your nightly specials.</p>
-                <ul class="feature-bullets">
-                    <li>
-                        <strong>Hyper-Local Sourcing</strong>
-                        <p>Direct from farms within 30 miles. Harvested this morning, delivered by dinner service.</p>
-                    </li>
-                    <li>
-                        <strong>Significant Cost Reduction</strong>
-                        <p>Surplus produce is priced 30-50% below standard wholesale rates.</p>
-                    </li>
-                    <li>
-                        <strong>Automated Compliance</strong>
-                        <p>FSMA 204 traceability lot codes are baked into every digital receipt.</p>
-                    </li>
-                </ul>
-                <a href="pricing.html" class="btn-primary" style="margin-top: 20px;">View Pricing Tiers</a>
-            </div>
+    <!-- STATS STRIP -->
+    <div class="stats-strip">
+        <div class="stat-block">
+            <span id="surplus-count" class="stat-num">...</span>
+            <span class="stat-title">LBS_RESCUED</span>
         </div>
-    </section>
-
-    <section id="farmers" class="section">
-        <div class="container grid-2 items-center">
-            <div class="section-text">
-                <h2 class="text-coral">For Farmers: Turn Waste into Revenue</h2>
-                <p class="large-p">Stop leaving money in the field. When your harvest exceeds your contracts, FieldFlow finds a home for every pound.</p>
-                <ul class="feature-bullets">
-                    <li>
-                        <strong>60-Second Listing</strong>
-                        <p>Snap a photo, set a price, and post. We handle the rest while you stay in the field.</p>
-                    </li>
-                    <li>
-                        <strong>Guaranteed Pickup</strong>
-                        <p>Our integrated 3PL courier network picks up from your gate within 2 hours of a sale.</p>
-                    </li>
-                    <li>
-                        <strong>Zero Waste, Full Profit</strong>
-                        <p>Clear your storage for the next crop and get paid for every single stalk you grow.</p>
-                    </li>
-                </ul>
-            </div>
-            <div class="section-image">
-                <img src="images/a-tech-forward-farmer-in-a-sunny-vegetab.png" alt="Farmer using FieldFlow mobile interface" class="rounded-img">
-            </div>
+        <div class="stat-block">
+            <span class="stat-num">240</span>
+            <span class="stat-title">MIN_WINDOW</span>
         </div>
-    </section>
-
-    <section id="waitlist" class="section waitlist-section">
-        <div class="container max-700 text-center">
-            <h2 class="text-white">Secure Your Spot in the Pilot</h2>
-            <p class="text-white opacity-80">Launching April 2026. Join 15 anchor farms and 30 early-adopter chefs in our first "Immediate Response" zone.</p>
-            
-            <div class="card waitlist-card">
-                <form id="beta-form" class="form-stack">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="name">Full Name</label>
-                            <input type="text" id="name" name="name" placeholder="Chef Marcus or Green Valley Farm" required>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" placeholder="chef@restaurant.com" required>
-                        </div>
-                    </div>
-                    <div class="form-row grid-2-mobile">
-                        <div class="form-group">
-                            <label for="role">I am a...</label>
-                            <select id="role" name="role" required>
-                                <option value="" disabled selected>Select your role</option>
-                                <option value="Chef">Executive Chef / Kitchen Manager</option>
-                                <option value="Farmer">Local Farmer / Grower</option>
-                                <option value="Courier">3PL Courier Partner</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="location">City, State</label>
-                            <input type="text" id="location" name="location" placeholder="Portland, OR" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-primary btn-xl">Join the Beta</button>
-                </form>
-                <div id="form-success" class="hidden">
-                    <div class="success-icon">✓</div>
-                    <h3>You're on the list!</h3>
-                    <p>We'll notify you the moment the Spring Surge hits your area.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Claim/Reserve Modal -->
-    <div id="notify-modal" class="modal hidden">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h3 class="text-emerald">Claim Surplus Lot</h3>
-            <p>To reserve this lot for your kitchen, please provide your restaurant details. A courier will be dispatched upon confirmation.</p>
-            <form id="notify-form" class="form-stack" style="margin-top: 20px;">
-                <input type="hidden" id="notif-produce" name="produce">
-                <div class="form-group">
-                    <label>Restaurant Name</label>
-                    <input type="text" id="notif-name" placeholder="Acme Bistro" required>
-                </div>
-                <div class="form-group">
-                    <label>Email Address</label>
-                    <input type="email" id="notif-email" placeholder="chef@acme.com" required>
-                </div>
-                <button type="submit" class="btn-primary w-full">Confirm Reservation</button>
-            </form>
-            <div id="notif-success" class="hidden text-center">
-                <div class="success-icon">✓</div>
-                <h3>Reservation Attempted</h3>
-                <p>We've logged your request for this lot. A representative will contact you shortly to finalize delivery logistics.</p>
-            </div>
+        <div class="stat-block">
+            <span class="stat-num">100%</span>
+            <span class="stat-title">FSMA_AUDITABLE</span>
         </div>
     </div>
 
-    <footer class="footer">
+    <!-- LIVE FEED REEL -->
+    <section id="live" class="reel-slide listings-section">
         <div class="container">
-            <div class="footer-top flex-between">
-                <div class="footer-brand">
-                    <div class="logo">FieldFlow</div>
-                    <p>Closing the loop on agricultural surplus through rapid logistics.</p>
-                </div>
-                <div class="footer-contact">
-                    <p>Ready to rescue? <a href="mailto:samuel@baget.ai">samuel@baget.ai</a></p>
+            <h2 class="section-title">ACTIVE_LOTS</h2>
+            <p class="section-p">Real-time inventory gluts. Claim now for immediate dispatch.</p>
+            
+            <div id="listings-grid" class="listings-grid">
+                <!-- Injected via JS -->
+                <div class="loading">SYNCING_HARVEST_DATA...</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- KITCHEN ANCHOR REEL -->
+    <section class="reel-slide">
+        <div class="container reel-content-grid">
+            <div class="reel-image-container">
+                <img src="images/ruggedized-fieldflow-kitchen-anchor-stai.png" alt="FieldFlow Kitchen Anchor Terminal">
+            </div>
+            <div>
+                <h2 class="section-title">KITCHEN<br>ANCHOR_</h2>
+                <p class="section-p">Ruggedized terminal hardware designed for high-heat, high-moisture kitchen lines. The operational heart of the 4-hour loop.</p>
+                <ul class="feature-list">
+                    <li>IP65-RATED STAINLESS STEEL</li>
+                    <li>30-SECOND COURIER HANDOFF</li>
+                    <li>AUTOMATED FSMA 204 LEDGER</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGISTICS REEL -->
+    <section class="reel-slide" style="background: var(--brutal-yellow);">
+        <div class="container reel-content-grid" style="grid-template-columns: 0.8fr 1.2fr;">
+            <div>
+                <h2 class="section-title">THE_LAST<br>MILE_</h2>
+                <p class="section-p">We control the courier network to ensure farms stay in the field and chefs stay on the line.</p>
+                <ul class="feature-list">
+                    <li>DOORDASH DRIVE API INTEGRATION</li>
+                    <li>REAL-TIME GPS TRACKING</li>
+                    <li>FLAT-RATE DELIVERY PRICING</li>
+                </ul>
+                <a href="pricing.html" class="brutal-btn brutal-btn-black" style="background: black; color: white; margin-top: 40px;">VIEW_ECONOMICS</a>
+            </div>
+            <div class="reel-image-container">
+                <img src="images/high-speed-motion-blur-shot-of-a-courier.png" alt="FieldFlow Delivery Reel">
+            </div>
+        </div>
+    </section>
+
+    <!-- WAITLIST REEL -->
+    <section id="waitlist" class="reel-slide waitlist-reel">
+        <div class="container">
+            <h2 class="section-title text-center" style="margin-bottom: 60px;">JOIN_THE_BETA_</h2>
+            <div class="waitlist-card">
+                <form id="beta-form">
+                    <div class="form-grid">
+                        <div class="input-group">
+                            <label>OPERATOR_NAME</label>
+                            <input type="text" id="name" placeholder="CHEF MARCUS / GREEN VALLEY" required>
+                        </div>
+                        <div class="input-group">
+                            <label>CONTACT_EMAIL</label>
+                            <input type="email" id="email" placeholder="OPS@FIELDFLOW.AG" required>
+                        </div>
+                        <div class="input-group">
+                            <label>FACILITY_TYPE</label>
+                            <select id="role" required>
+                                <option value="Chef">RESTAURANT / KITCHEN</option>
+                                <option value="Farmer">FARM / GROWER</option>
+                                <option value="Courier">3PL COURIER</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>GEOGRAPHIC_HUB</label>
+                            <input type="text" id="location" placeholder="SEATTLE / ATLANTA" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="brutal-btn w-full">REQUEST_PILOT_ACCESS</button>
+                </form>
+                <div id="form-success" class="hidden text-center">
+                    <h2 style="color: var(--brutal-emerald);">ACCESS_GRANTED</h2>
+                    <p>We'll notify you when the Spring Surge hits your zip code.</p>
                 </div>
             </div>
-            <div class="footer-bottom flex-between">
-                <p>&copy; 2026 FieldFlow. All rights reserved. FSMA 204 Compliant.</p>
-                <a href="investors.html" style="color: rgba(255,255,255,0.3); text-decoration: none; font-size: 11px;">Investor Portal</a>
+        </div>
+    </section>
+
+    <footer class="brutal-footer">
+        <div class="container">
+            <div class="footer-logo">FIELDFLOW</div>
+            <div class="footer-links">
+                <a href="pricing.html">PRICING</a>
+                <a href="portal.html">SELLER_PORTAL</a>
+                <a href="investors.html">INVESTOR_DATA_ROOM</a>
+                <a href="mailto:samuel@baget.ai">CONTACT_FOUNDER</a>
             </div>
+            <p style="margin-top: 60px; opacity: 0.5; font-size: 12px; letter-spacing: 2px;">
+                © 2026 FIELDFLOW AG. ALL RIGHTS RESERVED. FSMA 204 COMPLIANT. 240-MINUTE LOGISTICS LOOP VERIFIED.
+            </p>
         </div>
     </footer>
 
