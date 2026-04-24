@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { dispatchSurplusNotifications } from '@/lib/notifications';
 
 /**
  * FieldFlow Kitchen Anchor Terminal API
@@ -10,6 +11,7 @@ import { NextResponse } from 'next/server';
  * - Calculates a strict 4-hour expiration window.
  * - Generates the FSMA 204 compliant harvest timestamp.
  * - Synchronizes with the FieldFlow_Listings marketplace database.
+ * - NEW: Triggers real-time SMS alerts to nearby restaurants (20mi radius).
  */
 
 const LISTINGS_DB_ID = 'eaa7a6ac-fa48-4674-b788-ce22410b8a04';
@@ -47,17 +49,13 @@ export async function POST(req: Request) {
     };
 
     /**
-     * Note to Founder: 
-     * We are using the integrated Agent Database API to ensure the Investor Dashboard 
-     * and Marketplace Feed update instantly. If migrating to a direct Postgres 
-     * connection, use process.env.DATABASE_URL.
+     * Database Synchronization
      */
     const dbResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         rows: [{
-          // Generate a unique external key based on produce type and timestamp
           externalKey: `TERM-${produce_type.toUpperCase().replace(/\s+/g, '-')}-${Date.now()}`,
           data: newListing
         }]
@@ -69,12 +67,17 @@ export async function POST(req: Request) {
       throw new Error(errorData.message || 'Failed to sync with marketplace database');
     }
 
-    // 4. Return success to Terminal
+    // 4. TRIGGER NOTIFICATION ENGINE
+    // We dispatch notifications asynchronously to prevent blocking the terminal response
+    const notificationResult = await dispatchSurplusNotifications(newListing);
+
+    // 5. Return success to Terminal
     return NextResponse.json({
       success: true,
-      message: 'Surplus listing successfully published to marketplace.',
+      message: 'Surplus listing successfully published to marketplace and broadcast to local kitchens.',
       listing: newListing,
-      fsma_lot_code: `FF-${now.toISOString().split('T')[0].replace(/-/g, '')}-${farm_id.substring(0, 4)}`
+      fsma_lot_code: `FF-${now.toISOString().split('T')[0].replace(/-/g, '')}-${farm_id.substring(0, 4)}`,
+      notifications: notificationResult
     });
 
   } catch (error: any) {
