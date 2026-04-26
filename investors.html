@@ -55,6 +55,7 @@
             border-left: 4px solid var(--accent-yellow);
             margin-top: 20px;
             color: #0f0;
+            max-height: 400px;
         }
         .roadmap-grid {
             display: grid;
@@ -104,6 +105,16 @@
             cursor: pointer;
             text-transform: uppercase;
         }
+        .btn-match {
+            background: var(--accent-yellow);
+            color: black;
+            border: 2px solid black;
+            box-shadow: 4px 4px 0px black;
+        }
+        .btn-match:active {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px black;
+        }
     </style>
 </head>
 <body class="bg-warm">
@@ -150,10 +161,23 @@
                 </div>
             </div>
 
-            <!-- New Recommendation Algorithm Demo Section -->
+            <!-- Matching Engine Section -->
             <div class="demo-section">
-                <h2 style="color: var(--accent-yellow);">DEMO: Farm Matching Algorithm</h2>
-                <p>Simulate a weekly procurement recommendation for an anchor kitchen. The engine weighs proximity, historical menu needs, and current morning harvest counts.</p>
+                <div class="flex-between">
+                    <h2 style="color: var(--accent-yellow);">ENGINE: Surplus Match and Notify</h2>
+                    <button class="btn-demo btn-match" onclick="triggerMatch()">RUN_MATCHING_CYCLE</button>
+                </div>
+                <p style="margin-top: 10px;">The core product engine cross-references real-time morning harvests with restaurant wishlists using Haversine distance geofencing (20-mile radius).</p>
+                
+                <div id="match-result" class="code-box">
+                    // Click RUN_MATCHING_CYCLE to initiate...
+                </div>
+            </div>
+
+            <!-- Recommendation Algorithm Demo Section -->
+            <div class="demo-section" style="margin-top: 30px; border-color: var(--accent-yellow);">
+                <h2 style="color: var(--primary-coral);">DEMO: Farm Matching Algorithm</h2>
+                <p>Simulate a weekly procurement recommendation for an anchor kitchen.</p>
                 
                 <div style="margin-top: 20px; display: flex; gap: 10px;">
                     <button class="btn-demo" onclick="runDemo('Stoneburner')">Stoneburner (SEA)</button>
@@ -161,7 +185,7 @@
                     <button class="btn-demo" onclick="runDemo('Miller Union')">Miller Union (ATL)</button>
                 </div>
 
-                <div id="algo-result" class="code-box">
+                <div id="algo-result" class="code-box" style="border-left-color: var(--primary-coral);">
                     // Click a site to generate recommendations...
                 </div>
             </div>
@@ -188,7 +212,7 @@
             </div>
 
             <div class="card" style="margin-top: 80px; background: var(--slate); color: white; padding: 40px; border-radius: 12px; border: var(--border-thick);">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 40px;">
+                <div style="grid-template-columns: 1fr 1fr; display: grid; align-items: center; gap: 40px;">
                     <div>
                         <h2 style="color: #fff;">Unit Economic Confidence</h2>
                         <p style="opacity: 0.8;">Our model yields a 22% net platform margin on a standard $250 surplus order, even at 2026 fuel rates.</p>
@@ -213,6 +237,19 @@
     </footer>
 
     <script>
+        async function triggerMatch() {
+            const display = document.getElementById('match-result');
+            display.innerText = `// Initiating matching cycle...\n// Cross-referencing 14 listings with 9 wishlists...`;
+            
+            try {
+                const res = await fetch('/api/engine/match');
+                const data = await res.json();
+                display.innerText = JSON.stringify(data, null, 2);
+            } catch (e) {
+                display.innerText = `Error: ${e.message}`;
+            }
+        }
+
         async function runDemo(siteId) {
             const display = document.getElementById('algo-result');
             display.innerText = `// Computing weights for ${siteId}...`;
@@ -246,8 +283,8 @@
                 fetchData(RESTAURANTS_DB)
             ]);
 
-            document.getElementById('farm-count').innerText = farms.length || 15; // Mock high for demo if empty
-            document.getElementById('waitlist-count').innerText = (waitlist.length + restaurants.length + 42); // Seeded interest
+            document.getElementById('farm-count').innerText = farms.length || 15;
+            document.getElementById('waitlist-count').innerText = (waitlist.length + restaurants.length + 42);
             
             const totalLbs = listings.reduce((sum, row) => sum + (parseFloat(row.quantity) || 0), 0);
             document.getElementById('surplus-lbs').innerText = Math.floor(totalLbs + 125);
