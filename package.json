@@ -13,7 +13,9 @@
     "react": "^18",
     "react-dom": "^18",
     "stripe": "^15.0.0",
-    "lucide-react": "^0.378.0"
+    "lucide-react": "^0.378.0",
+    "zod": "^3.23.8",
+    "resend": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "^20",
