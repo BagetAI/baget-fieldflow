@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARM_INVENTORY | FIELDFLOW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/style.css">
+    <style>
+        .filter-bar {
+            background: var(--white);
+            border: var(--border-thick);
+            padding: 32px;
+            margin-bottom: 60px;
+            box-shadow: var(--shadow-hard);
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 24px;
+            align-items: end;
+        }
+        .inventory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 32px;
+        }
+        .farm-info {
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--emerald-green);
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+        .empty-state {
+            text-align: center;
+            padding: 100px 0;
+            border: var(--border-thick);
+            background: var(--white);
+            font-weight: 800;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body class="bg-warm">
+    <nav class="navbar">
+        <div class="container nav-flex">
+            <a href="/index.html" class="logo">FIELDFLOW_</a>
+            <div class="nav-links">
+                <a href="/index.html">HOME_FEED</a>
+                <a href="/inventory.html" class="desktop-only" style="color: var(--primary-coral);">INVENTORY</a>
+                <a href="/portal.html">SELLER_PORTAL</a>
+                <a href="/index.html#waitlist" class="brutal-btn brutal-btn-sm brutal-btn-yellow">JOIN_BETA</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="reel-slide hero-reel" style="min-height: 40vh; border-bottom: var(--brutal-border); background: var(--slate); color: white;">
+        <div class="container">
+            <h1 style="font-size: clamp(40px, 8vw, 80px);">FARM_INVENTORY_</h1>
+            <p style="font-size: 24px; opacity: 0.8; margin-top: 20px;">REAL-TIME_VISIBILITY_INTO_REGIONAL_GLUTS.</p>
+        </div>
+    </header>
+
+    <main class="section">
+        <div class="container">
+            <!-- Filter Bar -->
+            <div class="filter-bar">
+                <div class="input-group">
+                    <label>PRODUCE_TYPE</label>
+                    <input type="text" id="produce-filter" placeholder="E.G. RAMPS, TOMATOES...">
+                </div>
+                <div class="input-group">
+                    <label>HARVEST_DATE</label>
+                    <input type="date" id="date-filter">
+                </div>
+                <button id="reset-filters" class="brutal-btn brutal-btn-white" style="padding: 16px 32px;">RESET</button>
+            </div>
+
+            <div id="inventory-container" class="inventory-grid">
+                <!-- Injected via JS -->
+                <div class="empty-state">SYNCING_GLOBAL_FARM_DATA...</div>
+            </div>
+
+            <div style="margin-top: 100px;">
+                <img src="/images/an-industrial-neobrutalist-ui-dashboard-.png" alt="Inventory Dashboard Preview" style="width: 100%; border: var(--brutal-border); box-shadow: var(--brutal-shadow);">
+            </div>
+        </div>
+    </main>
+
+    <footer class="brutal-footer">
+        <div class="container">
+            <p>© 2026 FIELDFLOW_INVENTORY_HUB. ALL DATA FSMA 204 COMPLIANT.</p>
+        </div>
+    </footer>
+
+    <script src="/inventory.js"></script>
+</body>
+</html>
