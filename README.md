@@ -11,53 +11,43 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
 
 ## API Documentation
 
-### Farm Inventory Webhook (Batch 12 Refinement)
-- **Endpoint**: `POST /api/inventory/webhook`
-- **Authentication**: Header `x-fieldflow-secret` (Shared Secret)
-- **Logic**: Deduplicates harvest items, merges quantities, and returns a unique harvest summary.
+### Farm Inventory Submission (New)
+- **Endpoint**: `POST /api/inventory/submit`
+- **Purpose**: General ingestion for harvest data. Deduplicates items and merges quantities.
 - **Payload Schema**:
   ```json
   {
     "farm_id": "FARM-SNO-01",
-    "secret_key": "FF_SNO_2026_SECURE",
-    "harvest_event": {
-      "timestamp": "2026-04-26T06:15:00Z",
-      "items": [
-        {
-          "produce_type": "Wild Ramps",
-          "quantity_lbs": 40,
-          "unit_price": 14.25,
-          "status": "In-Field"
-        }
-      ]
-    }
+    "items": [
+      {
+        "produce_type": "Wild Ramps",
+        "quantity_lbs": 40,
+        "unit_price": 14.25,
+        "status": "In-Field"
+      },
+      {
+        "produce_type": "Wild Ramps",
+        "quantity_lbs": 10,
+        "unit_price": 14.25,
+        "status": "Packed"
+      }
+    ],
+    "harvest_timestamp": "2026-04-26T06:15:00Z"
   }
   ```
+- **Response**: Returns a list of `unique_items` with generated FSMA 204 lot codes.
+
+### Farm Inventory Webhook (Batch 12 Refinement)
+- **Endpoint**: `POST /api/inventory/webhook`
+- **Authentication**: Header `x-fieldflow-secret` (Shared Secret)
+- **Logic**: Deduplicates harvest items, merges quantities, and returns a unique harvest summary.
 
 ### Real-Time Logistics Tracking
 - **Endpoint**: `POST /api/logistics/track`
 - **Auth**: Header `x-courier-api-key`
-- **Payload**:
-  ```json
-  {
-    "listingId": "listing_external_key",
-    "status": "IN_TRANSIT",
-    "courier_name": "John D.",
-    "estimated_arrival": "2026-04-26T16:00:00Z"
-  }
-  ```
 
 ### Terminal Listing API
 - **Endpoint**: `POST /api/terminal/list`
-- **Payload**:
-  ```json
-  {
-    "produce_type": "Wild Ramps",
-    "quantity": 40,
-    "price": "$4.50",
-    "farm_id": "FARM-SEA-001"
-  }
-  ```
 
 ## Deployment & Production
 - **Live Site**: [https://baget-fieldflow.vercel.app](https://baget-fieldflow.vercel.app)
