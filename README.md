@@ -11,10 +11,10 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
 
 ## API Documentation
 
-### Farm Inventory Webhook (Batch 12)
+### Farm Inventory Webhook (Batch 12 Refinement)
 - **Endpoint**: `POST /api/inventory/webhook`
 - **Authentication**: Header `x-fieldflow-secret` (Shared Secret)
-- **Purpose**: High-velocity automated sync from farm ERP systems (Farmigo, AgSquared).
+- **Logic**: Deduplicates harvest items, merges quantities, and returns a unique harvest summary.
 - **Payload Schema**:
   ```json
   {
