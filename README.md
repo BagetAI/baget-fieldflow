@@ -11,10 +11,32 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
 
 ## API Documentation
 
+### Farm Inventory Webhook (Batch 12)
+- **Endpoint**: `POST /api/inventory/webhook`
+- **Authentication**: Header `x-fieldflow-secret` (Shared Secret)
+- **Purpose**: High-velocity automated sync from farm ERP systems (Farmigo, AgSquared).
+- **Payload Schema**:
+  ```json
+  {
+    "farm_id": "FARM-SNO-01",
+    "secret_key": "FF_SNO_2026_SECURE",
+    "harvest_event": {
+      "timestamp": "2026-04-26T06:15:00Z",
+      "items": [
+        {
+          "produce_type": "Wild Ramps",
+          "quantity_lbs": 40,
+          "unit_price": 14.25,
+          "status": "In-Field"
+        }
+      ]
+    }
+  }
+  ```
+
 ### Real-Time Logistics Tracking
 - **Endpoint**: `POST /api/logistics/track`
 - **Auth**: Header `x-courier-api-key`
-- **Purpose**: Processes 3PL status updates (Picked up, In Transit, Delivered) to update the marketplace and kitchen terminals.
 - **Payload**:
   ```json
   {
@@ -24,11 +46,6 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
     "estimated_arrival": "2026-04-26T16:00:00Z"
   }
   ```
-
-### Farm Matching Algorithm (v2)
-- **Endpoint**: `GET /api/recommendations/[restaurantId]`
-- **Purpose**: Suggests 3-5 farms for a restaurant to buy from based on "Supply-Triggered Demand."
-- **Parameters**: `restaurantId` (e.g., `Stoneburner`, `Canlis`, `Aerlume`)
 
 ### Terminal Listing API
 - **Endpoint**: `POST /api/terminal/list`
@@ -41,10 +58,6 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
     "farm_id": "FARM-SEA-001"
   }
   ```
-
-### Farm Inventory Webhook
-- **Endpoint**: `POST /api/inventory/webhook`
-- **Purpose**: High-velocity automated sync from farm inventory systems.
 
 ## Deployment & Production
 - **Live Site**: [https://baget-fieldflow.vercel.app](https://baget-fieldflow.vercel.app)

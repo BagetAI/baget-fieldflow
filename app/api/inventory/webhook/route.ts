@@ -3,36 +3,47 @@ import { z } from 'zod';
 import { dispatchSurplusNotifications } from '@/lib/notifications';
 
 /**
- * FieldFlow Farm Inventory Webhook
+ * FieldFlow Farm Inventory Webhook (Batch 12 Refinement)
  * Endpoint: POST /api/inventory/webhook
- * Purpose: Allows farms to push inventory updates directly from their systems.
  * 
  * Logic:
- * - Validates farmId and array of items.
- * - For each item, calculates a 4-hour expiration window.
- * - Automatically generates FSMA 204 lot codes.
- * - Publishes to the FieldFlow_Listings marketplace database.
- * - Triggers real-time notifications for nearby restaurants.
+ * - Implements Batch 12 security (Shared Secret header).
+ * - Validates Batch 12 JSON contract (farm_id, secret_key, harvest_event).
+ * - Processes items into the marketplace database.
+ * - Triggers geographic notification engine for local kitchens.
  */
 
 const LISTINGS_DB_ID = 'eaa7a6ac-fa48-4674-b788-ce22410b8a04';
+const FIELD_FLOW_SHARED_SECRET = process.env.FIELD_FLOW_WEBHOOK_SECRET || 'FF_SHARED_SECRET_2026';
 
-// 1. Define the input contract schema
+// 1. Batch 12 Data Contract Schema
 const InventoryItemSchema = z.object({
-  produce: z.string().min(1, "Produce type is required"),
-  quantityKg: z.number().positive("Quantity must be positive"),
-  pricePerKg: z.number().positive("Price must be positive"),
-  harvestDate: z.string().datetime({ message: "Harvest date must be a valid ISO-8601 string" })
+  produce_type: z.string().min(1),
+  quantity_lbs: z.number().positive(),
+  unit_price: z.number().positive(),
+  status: z.enum(['In-Field', 'Packed', 'Ready'])
+});
+
+const HarvestEventSchema = z.object({
+  timestamp: z.string().datetime(),
+  items: z.array(InventoryItemSchema).min(1)
 });
 
 const WebhookPayloadSchema = z.object({
-  farmId: z.string().min(1, "Farm ID is required"),
-  items: z.array(InventoryItemSchema).min(1, "At least one item is required")
+  farm_id: z.string().min(1),
+  secret_key: z.string().min(1), // Secondary validation field
+  harvest_event: HarvestEventSchema
 });
 
 export async function POST(req: Request) {
   try {
-    // 2. Request Parsing & Validation
+    // 2. Authentication: Shared Secret Header
+    const secretHeader = req.headers.get('x-fieldflow-secret');
+    if (secretHeader !== FIELD_FLOW_SHARED_SECRET && process.env.NODE_ENV === 'production') {
+      return NextResponse.json({ error: 'Unauthorized: Invalid Shared Secret' }, { status: 401 });
+    }
+
+    // 3. Request Parsing & Schema Validation
     const body = await req.json();
     const validation = WebhookPayloadSchema.safeParse(body);
 
@@ -43,26 +54,27 @@ export async function POST(req: Request) {
       }, { status: 400 });
     }
 
-    const { farmId, items } = validation.data;
+    const { farm_id, harvest_event } = validation.data;
     const now = new Date();
     const results = [];
 
-    // 3. Process each item (Sync with Marketplace)
-    for (const item of items) {
-      const expiresAtDate = new Date(now.getTime() + 4 * 60 * 60 * 1000); // 4-hour shelf life
+    // 4. Batch Process Items (Sync with Marketplace)
+    for (const item of harvest_event.items) {
+      // Automatic 4-hour expiration window as per architected freshness moat
+      const expiresAtDate = new Date(now.getTime() + 4 * 60 * 60 * 1000); 
       
       const newListing = {
-        produce_type: item.produce,
-        quantity: item.quantityKg,
-        price: `$${item.pricePerKg.toFixed(2)}`,
-        harvest_date: item.harvestDate,
+        produce_type: item.produce_type,
+        quantity: item.quantity_lbs,
+        price: `$${item.unit_price.toFixed(2)}`,
+        harvest_date: harvest_event.timestamp,
         expires_at: expiresAtDate.toISOString(),
-        farm_id: farmId,
+        farm_id: farm_id,
         status: 'Available'
       };
 
-      // Generate a unique key for the listing
-      const externalKey = `WEBHOOK-${farmId}-${item.produce.toUpperCase().replace(/\s+/g, '-')}-${Date.now()}`;
+      // Idempotency: Unique key prevents duplicate listings from same harvest event
+      const externalKey = `WEBHOOK-B12-${farm_id}-${item.produce_type.toUpperCase().replace(/\s+/g, '-')}-${harvest_event.timestamp}`;
 
       // POST to agent database
       const dbResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
@@ -77,36 +89,43 @@ export async function POST(req: Request) {
       });
 
       if (dbResponse.ok) {
-        // Trigger notification engine for each successfully listed item
+        // Trigger notification engine for nearby kitchens (20-mile radius)
         await dispatchSurplusNotifications(newListing);
         
+        // Generate FSMA 204 Traceability Lot Code
+        const lotCode = `FF-${now.toISOString().split('T')[0].replace(/-/g, '')}-${farm_id.substring(0, 4).toUpperCase()}`;
+        
         results.push({
-          produce: item.produce,
-          status: 'Published',
-          lot_code: `FF-${now.toISOString().split('T')[0].replace(/-/g, '')}-${farmId.substring(0, 4)}`
+          produce: item.produce_type,
+          status: 'LIVE_NOW',
+          fsma_204_lot_code: lotCode,
+          message: 'Listing published and geofenced notifications dispatched.'
         });
       } else {
         results.push({
-          produce: item.produce,
-          status: 'Failed',
-          error: 'Database sync error'
+          produce: item.produce_type,
+          status: 'FAILED',
+          error: 'Marketplace Sync Error'
         });
       }
     }
 
-    // 4. Return summary to the farm system
+    // 5. Response Summary
     return NextResponse.json({
       success: true,
-      farm_id: farmId,
+      farm_id: farm_id,
       timestamp: now.toISOString(),
-      items_processed: results.length,
+      summary: {
+        total_items: harvest_event.items.length,
+        processed: results.filter(r => r.status === 'LIVE_NOW').length
+      },
       details: results
     });
 
   } catch (error: any) {
-    console.error('Inventory Webhook Error:', error);
+    console.error('Inventory Webhook Exception:', error);
     return NextResponse.json({ 
-      error: 'Internal Server Error', 
+      error: 'Internal Operational Error', 
       details: error.message 
     }, { status: 500 });
   }
