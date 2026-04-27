@@ -11,7 +11,20 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
 
 ## API Documentation
 
-### Simple Inventory Add (New)
+### Inventory Scan (New)
+- **Endpoint**: `POST /api/inventory/scan`
+- **Purpose**: Rapid inventory updates via barcode scanning.
+- **Payload Schema**:
+  ```json
+  {
+    "barcode": "78901234",
+    "quantity": 10,
+    "farm_id": "FARM-SNO-01"
+  }
+  ```
+- **Response**: Returns the created listing with an automated FSMA 204 lot code and triggers nearby kitchen alerts.
+
+### Simple Inventory Add
 - **Endpoint**: `POST /api/inventory/add`
 - **Purpose**: Lightweight ingestion for single produce items.
 - **Payload Schema**:
@@ -23,25 +36,10 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
     "farm_name": "Local Roots Farm"
   }
   ```
-- **Response**: Returns the created listing with an automated FSMA 204 lot code.
 
 ### Farm Inventory Submission (Batch)
 - **Endpoint**: `POST /api/inventory/submit`
 - **Purpose**: General ingestion for multi-item harvest data.
-- **Payload Schema**:
-  ```json
-  {
-    "farm_id": "FARM-SNO-01",
-    "items": [
-      {
-        "produce_type": "Wild Ramps",
-        "quantity_lbs": 40,
-        "unit_price": 14.25,
-        "status": "In-Field"
-      }
-    ]
-  }
-  ```
 
 ### Real-Time Logistics Tracking
 - **Endpoint**: `POST /api/logistics/track`
