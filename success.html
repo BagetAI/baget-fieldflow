@@ -3,64 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rescue Successful | FieldFlow</title>
+    <title>Surplus Secured | FIELDFLOW</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
-        .success-page {
+        .success-hero {
             min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+        .success-card {
+            background: #fff;
+            border: var(--brutal-border);
+            box-shadow: var(--brutal-shadow);
+            padding: 60px;
+            max-width: 600px;
+            width: 90%;
+        }
+        .checkmark-box {
+            width: 80px;
+            height: 80px;
+            background: var(--brutal-emerald);
+            border: var(--brutal-border);
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
+            margin: 0 auto 32px;
+            transform: rotate(-3deg);
         }
-        .success-box {
-            background: var(--white);
-            padding: 60px;
-            border-radius: var(--radius-lg);
-            border: var(--border-thick);
-            box-shadow: 16px 16px 0 var(--emerald-green);
-            max-width: 600px;
-        }
-        .confetti-icon {
-            font-size: 64px;
-            margin-bottom: 24px;
+        .logistics-ticker {
+            background: var(--brutal-yellow);
+            padding: 12px;
+            border: var(--brutal-border);
+            font-family: monospace;
+            font-weight: 700;
+            margin-top: 32px;
+            font-size: 14px;
         }
     </style>
 </head>
-<body>
+<body class="bg-warm">
     <nav class="navbar">
-        <div class="container flex-between">
-            <div class="logo">
-                <a href="index.html" style="text-decoration: none; color: inherit;"><span class="text-emerald">Field</span><span class="text-coral">Flow</span></a>
-            </div>
+        <div class="container">
+            <a href="index.html" class="logo">FIELDFLOW_</a>
         </div>
     </nav>
 
-    <main class="success-page">
-        <div class="container">
-            <div class="success-box">
-                <div class="confetti-icon">🥬</div>
-                <h1 class="text-emerald">Surplus Rescued!</h1>
-                <p class="large-p">Payment confirmed. Your order has been moved to "Sold" and a 3PL courier is being dispatched to the farm right now.</p>
-                <div class="card bg-warm" style="text-align: left; margin: 30px 0;">
-                    <h3 style="margin-bottom: 10px;">Next Steps:</h3>
-                    <ul style="padding-left: 20px;">
-                        <li>Courier ETA: 45-60 minutes</li>
-                        <li>Digital Receipt sent to your email</li>
-                        <li>FSMA 204 Lot Code attached to crate</li>
-                    </ul>
-                </div>
-                <a href="index.html" class="btn-primary">Back to Marketplace</a>
+    <main class="container success-hero">
+        <div class="success-card">
+            <div class="checkmark-box">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="4" stroke-linecap="square">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
             </div>
+            <h1>SURPLUS_SECURED</h1>
+            <p class="section-p">Payment confirmed. We have dispatched a courier to the farm. Your harvest will arrive at your kitchen sink in under 240 minutes.</p>
+            
+            <div class="logistics-ticker">
+                STATUS: DISPATCHING_COURIER... [ETA: 195 MIN]
+            </div>
+
+            <div style="margin-top: 40px; display: flex; gap: 16px; justify-content: center;">
+                <a href="index.html" class="brutal-btn brutal-btn-white">RESCUE_MORE</a>
+                <a href="inventory.html" class="brutal-btn">VIEW_INVENTORY</a>
+            </div>
+            
+            <p style="margin-top: 32px; font-size: 12px; opacity: 0.5;">A FSMA 204 digital receipt and traceability lot code have been emailed to your kitchen manager.</p>
         </div>
     </main>
 
-    <footer class="footer">
+    <footer class="brutal-footer">
         <div class="container text-center">
-            <p>&copy; 2026 FieldFlow. Closing the loop on agricultural surplus.</p>
+            <p>© 2026 FIELDFLOW AG. FSMA 204 COMPLIANT.</p>
         </div>
     </footer>
 </body>
