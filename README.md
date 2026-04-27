@@ -11,9 +11,23 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
 
 ## API Documentation
 
-### Farm Inventory Submission (New)
+### Simple Inventory Add (New)
+- **Endpoint**: `POST /api/inventory/add`
+- **Purpose**: Lightweight ingestion for single produce items.
+- **Payload Schema**:
+  ```json
+  {
+    "produce_type": "Wild Ramps",
+    "quantity": 40,
+    "price": "$4.50/lb",
+    "farm_name": "Local Roots Farm"
+  }
+  ```
+- **Response**: Returns the created listing with an automated FSMA 204 lot code.
+
+### Farm Inventory Submission (Batch)
 - **Endpoint**: `POST /api/inventory/submit`
-- **Purpose**: General ingestion for harvest data. Deduplicates items and merges quantities.
+- **Purpose**: General ingestion for multi-item harvest data.
 - **Payload Schema**:
   ```json
   {
@@ -24,30 +38,14 @@ FieldFlow Landing Page - Immediate Response Marketplace for Farm Surplus
         "quantity_lbs": 40,
         "unit_price": 14.25,
         "status": "In-Field"
-      },
-      {
-        "produce_type": "Wild Ramps",
-        "quantity_lbs": 10,
-        "unit_price": 14.25,
-        "status": "Packed"
       }
-    ],
-    "harvest_timestamp": "2026-04-26T06:15:00Z"
+    ]
   }
   ```
-- **Response**: Returns a list of `unique_items` with generated FSMA 204 lot codes.
-
-### Farm Inventory Webhook (Batch 12 Refinement)
-- **Endpoint**: `POST /api/inventory/webhook`
-- **Authentication**: Header `x-fieldflow-secret` (Shared Secret)
-- **Logic**: Deduplicates harvest items, merges quantities, and returns a unique harvest summary.
 
 ### Real-Time Logistics Tracking
 - **Endpoint**: `POST /api/logistics/track`
 - **Auth**: Header `x-courier-api-key`
-
-### Terminal Listing API
-- **Endpoint**: `POST /api/terminal/list`
 
 ## Deployment & Production
 - **Live Site**: [https://baget-fieldflow.vercel.app](https://baget-fieldflow.vercel.app)
