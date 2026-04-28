@@ -56,7 +56,7 @@ export async function POST(req: Request) {
       'CANCELLED': 'Logistics Error'
     };
 
-    const updateListingRes = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+    const updateListingRes = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -78,13 +78,13 @@ export async function POST(req: Request) {
 
     // 5. Trigger "Server Action" simulation: Update Kitchen Terminal Status
     // We fetch the listing first to find which site it belongs to
-    const fetchListingRes = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+    const fetchListingRes = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
     const listings = await fetchListingRes.json();
     const listing = listings.find((l: any) => l.externalKey === listingId);
 
     if (listing && listing.destination_site) {
       // Find the terminal for this site and pulse the status
-      await fetch(`https://baget.ai/api/public/databases/${TERMINALS_DB_ID}/rows`, {
+      await fetch(`https://app.baget.ai/api/public/databases/${TERMINALS_DB_ID}/rows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

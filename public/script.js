@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const gridEl = document.getElementById('listings-grid');
         
         try {
-            const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+            const response = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
             if (response.ok) {
                 const rows = await response.json();
                 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+                const response = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ 
@@ -182,7 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const response = await fetch(`https://baget.ai/api/public/databases/${WAITLIST_DB_ID}/rows`, {
+                const response = await fetch(`https://app.baget.ai/api/public/databases/${WAITLIST_DB_ID}/rows`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ data: formData }),

@@ -31,7 +31,7 @@ export async function POST(req: Request) {
     const now = new Date().toISOString();
 
     // 2. Handle Heartbeat (Update Terminal Status)
-    await fetch(`https://baget.ai/api/public/databases/${TERMINALS_DB_ID}/rows`, {
+    await fetch(`https://app.baget.ai/api/public/databases/${TERMINALS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -70,7 +70,7 @@ export async function POST(req: Request) {
         const externalKey = `SYNC-${terminal_id}-${produce_type.toUpperCase().replace(/\s+/g, '-')}-${Date.now()}`;
 
         // Update listings database
-        await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+        await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

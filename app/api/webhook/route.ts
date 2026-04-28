@@ -48,7 +48,7 @@ export async function POST(req: Request) {
 
       try {
         // 1. Update Marketplace Inventory Status to 'Sold'
-        const inventoryRes = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+        const inventoryRes = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -67,7 +67,7 @@ export async function POST(req: Request) {
         }
 
         // 2. Log to FieldFlow_Payments Database for Investor Transparency
-        const paymentRes = await fetch(`https://baget.ai/api/public/databases/${PAYMENTS_DB_ID}/rows`, {
+        const paymentRes = await fetch(`https://app.baget.ai/api/public/databases/${PAYMENTS_DB_ID}/rows`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

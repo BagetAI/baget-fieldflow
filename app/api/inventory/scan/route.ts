@@ -80,7 +80,7 @@ export async function POST(req: Request) {
     // Uses a high-velocity externalKey for idempotency and real-time dashboard updates
     const externalKey = `SCAN-2026-${farm_id.toUpperCase()}-${barcode}-${now.getTime()}`;
     
-    const dbResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+    const dbResponse = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

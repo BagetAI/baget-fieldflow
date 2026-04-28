@@ -67,7 +67,7 @@ export async function POST(req: Request) {
       const externalKey = `SUBMIT-2026-${farm_id}-${item.produce_type.toUpperCase().replace(/\s+/g, '-')}-${harvest_timestamp.slice(0, 16)}`;
 
       // Sync to FieldFlow_Listings Database
-      const dbResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+      const dbResponse = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

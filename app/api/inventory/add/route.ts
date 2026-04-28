@@ -52,7 +52,7 @@ export async function POST(req: Request) {
     const externalKey = `ADD-2026-${farm_name.toUpperCase().replace(/\s+/g, '-')}-${produce_type.toUpperCase().replace(/\s+/g, '-')}-${now.getTime()}`;
 
     // POST to Agent Database
-    const response = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+    const response = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

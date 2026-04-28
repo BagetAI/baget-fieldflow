@@ -271,7 +271,7 @@
 
             const fetchData = async (dbId) => {
                 try {
-                    const res = await fetch(`https://baget.ai/api/public/databases/${dbId}/rows`);
+                    const res = await fetch(`https://app.baget.ai/api/public/databases/${dbId}/rows`);
                     return res.ok ? await res.json() : [];
                 } catch (e) { return []; }
             };

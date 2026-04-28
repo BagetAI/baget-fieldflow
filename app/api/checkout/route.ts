@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     // For now, we signal intent to the webhook via metadata.
     
     // We'll update the row to 'Reserved' immediately to block other buyers
-    await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+    await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

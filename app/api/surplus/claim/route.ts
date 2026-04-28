@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     // 3. Transactional Simulation: Check Availability
     // First, fetch current listings to verify the lot isn't already claimed
-    const fetchResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+    const fetchResponse = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
     if (!fetchResponse.ok) {
       throw new Error('Failed to fetch marketplace data');
     }
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
 
     // 4. Atomic Update (Upsert via externalKey)
     // We update the status to 'Claimed' and record the chef who claimed it
-    const updateResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+    const updateResponse = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

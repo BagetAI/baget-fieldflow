@@ -82,7 +82,7 @@ export async function POST(req: Request) {
       const externalKey = `WEBHOOK-2026-${farm_id}-${item.produce_type.toUpperCase().replace(/\s+/g, '-')}-${harvest_event.timestamp.slice(0, 13)}`;
 
       // Sync with Agent Database
-      const dbResponse = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
+      const dbResponse = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

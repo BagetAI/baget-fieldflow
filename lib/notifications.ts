@@ -35,7 +35,7 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 export async function dispatchSurplusNotifications(listing: { produce_type: string, quantity: number, price: string, farm_id: string }) {
   try {
     // 1. Fetch Pilot Registry
-    const response = await fetch(`https://baget.ai/api/public/databases/${PILOT_REGISTRY_DB_ID}/rows`);
+    const response = await fetch(`https://app.baget.ai/api/public/databases/${PILOT_REGISTRY_DB_ID}/rows`);
     if (!response.ok) throw new Error('Failed to fetch pilot registry');
     const registry: Site[] = await response.json();
 

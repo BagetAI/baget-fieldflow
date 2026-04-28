@@ -23,9 +23,9 @@ export async function runMatchingEngine() {
   try {
     // 1. Fetch all dependencies
     const [listings, wishlists, registry] = await Promise.all([
-      fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB}/rows`).then(r => r.json()),
-      fetch(`https://baget.ai/api/public/databases/${WISHLISTS_DB}/rows`).then(r => r.json()),
-      fetch(`https://baget.ai/api/public/databases/${REGISTRY_DB}/rows`).then(r => r.json())
+      fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB}/rows`).then(r => r.json()),
+      fetch(`https://app.baget.ai/api/public/databases/${WISHLISTS_DB}/rows`).then(r => r.json()),
+      fetch(`https://app.baget.ai/api/public/databases/${REGISTRY_DB}/rows`).then(r => r.json())
     ]);
 
     const activeListings = listings.filter((l: any) => l.status === 'Available');
@@ -76,7 +76,7 @@ export async function runMatchingEngine() {
 
     // 3. Persist Matches
     if (matches.length > 0) {
-      await fetch(`https://baget.ai/api/public/databases/${MATCHES_DB}/rows`, {
+      await fetch(`https://app.baget.ai/api/public/databases/${MATCHES_DB}/rows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

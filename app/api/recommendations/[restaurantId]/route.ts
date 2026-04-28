@@ -45,7 +45,7 @@ export async function GET(
     const { restaurantId } = params;
 
     // 1. Fetch Pilot Registry (Farms & Restaurants)
-    const registryRes = await fetch(`https://baget.ai/api/public/databases/${REGISTRY_DB_ID}/rows`);
+    const registryRes = await fetch(`https://app.baget.ai/api/public/databases/${REGISTRY_DB_ID}/rows`);
     if (!registryRes.ok) throw new Error('Failed to fetch registry data');
     const registry = await registryRes.json();
 
@@ -64,7 +64,7 @@ export async function GET(
     }
 
     // 3. Fetch current available listings (Seasonality Signal)
-    const listingsRes = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+    const listingsRes = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
     const listings = listingsRes.ok ? await listingsRes.json() : [];
     const availableListings = listings.filter((l: any) => l.status === 'Available');
 

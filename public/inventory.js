@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const fetchData = async () => {
         try {
             // Fetch farms first to create a lookup map
-            const farmsRes = await fetch(`https://baget.ai/api/public/databases/${FARMS_DB_ID}/rows`);
+            const farmsRes = await fetch(`https://app.baget.ai/api/public/databases/${FARMS_DB_ID}/rows`);
             if (farmsRes.ok) {
                 const farms = await farmsRes.json();
                 farms.forEach(f => {
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             // Fetch listings
-            const listingsRes = await fetch(`https://baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
+            const listingsRes = await fetch(`https://app.baget.ai/api/public/databases/${LISTINGS_DB_ID}/rows`);
             if (listingsRes.ok) {
                 allListings = await listingsRes.json();
                 renderInventory(allListings);
